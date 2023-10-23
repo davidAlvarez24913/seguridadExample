@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 type LoginType = {
@@ -11,13 +12,23 @@ const Login = () => {
     formState: { errors },
   } = useForm<LoginType>();
 
+  const [rol, setRol] = useState("");
+  const [error, setError] = useState("");
+
   const onSubmit: SubmitHandler<LoginType> = (data) => {
-    fetch(`http://localhost:3001/verifyUser/${JSON.stringify(data)}`, {
+    fetch(`http://localhost:3001/verifyUser/${data.name}/${data.password}`, {
       method: "POST",
-      mode: "no-cors",
     })
       .then((response) => {
-        console.log("si eres administrador", response);
+        if (!response.ok) {
+          setError("usuario no existe");
+          throw error;
+        }
+        return response.json();
+      })
+      .then((json) => {
+        setRol(json.rol);
+        setError("");
       })
       .catch((e) => console.log(e));
   };
@@ -57,6 +68,8 @@ const Login = () => {
             Iniciar sesión
           </button>
         </div>
+        {rol !== "" && <h1>Su rol es: {rol}</h1>}
+        {error !== "" && <h1 className="text-red-500">{error}</h1>}
       </form>
     </div>
   );
