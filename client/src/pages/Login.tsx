@@ -11,7 +11,24 @@ const Login = () => {
     formState: { errors },
   } = useForm<LoginType>();
 
-  const onSubmit: SubmitHandler<LoginType> = (data) => console.log(data);
+  const onSubmit: SubmitHandler<LoginType> = (data) => {
+    fetch(`http://localhost:3001/verifyUser/${JSON.stringify(data)}`, {
+      method: "GET",
+      // mode: "no-cors",
+      mode: "cors", // no-cors, *cors, same-origin
+      cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+      credentials: "same-origin", // include, *same-origin, omit
+      headers: {
+        "Content-Type": "application/json",
+        // 'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: JSON.stringify(data),
+    })
+      .then((response) => {
+        console.log("si eres administrador", response);
+      })
+      .catch((e) => console.log(e));
+  };
 
   return (
     <div className="flex flex-row gap-1 text-xl font-semibold justify-center items-center w-screen h-screen bg-slate-300">

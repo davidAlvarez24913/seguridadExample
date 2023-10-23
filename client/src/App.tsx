@@ -11,9 +11,7 @@ function App() {
   return (
     <div>
       <nav
-        className={`flex flex-row gap-2 justify-center w-screen py-2  font-semibold ${
-          loc[0] === "/register" ? "bg-blue-700" : "bg-slate-300"
-        }`}
+        className={`flex flex-row gap-2 justify-center w-screen py-2  font-semibold bg-slate-300`}
       >
         <Link href="/login">
           <a
