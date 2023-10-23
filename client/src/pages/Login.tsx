@@ -13,16 +13,8 @@ const Login = () => {
 
   const onSubmit: SubmitHandler<LoginType> = (data) => {
     fetch(`http://localhost:3001/verifyUser/${JSON.stringify(data)}`, {
-      method: "GET",
-      // mode: "no-cors",
-      mode: "cors", // no-cors, *cors, same-origin
-      cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
-      credentials: "same-origin", // include, *same-origin, omit
-      headers: {
-        "Content-Type": "application/json",
-        // 'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      body: JSON.stringify(data),
+      method: "POST",
+      mode: "no-cors",
     })
       .then((response) => {
         console.log("si eres administrador", response);

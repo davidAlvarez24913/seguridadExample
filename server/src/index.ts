@@ -9,7 +9,7 @@ app.get("/ping", (_req, res) => {
   res.send("pong");
 });
 
-app.get("/verifyUser/:data", (req, res) => {
+app.post("/verifyUser/:data", (req, res) => {
   const { name } = JSON.parse(req.params.data);
 
   db_con.connect(() => {
@@ -25,6 +25,7 @@ app.get("/verifyUser/:data", (req, res) => {
       } else if (result && result.length > 0) {
         const { rol } = result[0]; // Extraer el valor de rol de la primera fila
         console.log(rol);
+        res.send(rol);
       } else {
         res.status(404).json({ error: "Usuario no encontrado" });
       }
