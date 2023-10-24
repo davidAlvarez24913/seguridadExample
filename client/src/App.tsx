@@ -39,7 +39,7 @@ function App() {
         <Route path="/login" component={Login} />
         <Route path="/" component={Login} />
         <Route path="/users" component={UsersPage} />
-        <Route path="/profile" component={ProfilePage} />
+        <Route path="/profile/:name" component={ProfilePage} />
       </Router>
     </div>
   );

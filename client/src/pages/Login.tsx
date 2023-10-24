@@ -1,8 +1,12 @@
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useLocation, useRoute, useRouter } from "wouter";
 import { navigate } from "wouter/use-location";
+import * as crypto from "crypto-js";
 
+function calcularMD5(texto: string): any {
+  const hashMD5 = crypto.MD5("md5");
+  return hashMD5.toString();
+}
 type LoginType = {
   name: string;
   password: string;
@@ -18,14 +22,19 @@ const Login = () => {
   const [error, setError] = useState("");
 
   const onSubmit: SubmitHandler<LoginType> = (data) => {
-    fetch(`http://localhost:3001/verifyUser/${data.name}/${data.password}`, {
-      method: "POST",
-    })
+    fetch(
+      `http://localhost:3001/verifyUser/${data.name}/${calcularMD5(
+        data.password
+      )}`,
+      {
+        method: "POST",
+      }
+    )
       .then((response) => {
-        // if (!response.ok) {
-        //   setError("usuario no existe");
-        //   throw error;
-        // }
+        if (!response.ok) {
+          setError("usuario no existe");
+          throw error;
+        }
         return response.json();
       })
       .then((json) => {
@@ -35,7 +44,7 @@ const Login = () => {
           if (json.rol === "admin") {
             navigate("/users", { replace: true });
           } else {
-            navigate("/profile", { replace: true });
+            navigate(`/profile/${data.name}`, { replace: true });
           }
         }, 3000);
       })
@@ -43,7 +52,8 @@ const Login = () => {
   };
 
   return (
-    <div className="flex flex-row gap-1 text-xl font-semibold justify-center items-center w-screen h-screen bg-slate-300">
+    <div className="flex flex-col gap-1 text-xl font-semibold justify-center items-center w-screen h-screen bg-slate-300">
+      <h1 className="text-4xl my-5 text-blue-700">Cara de libro</h1>
       <form
         onSubmit={handleSubmit(onSubmit)}
         className=" rounded-lg border p-20 shadow-lg w-2/3 bg-slate-100"

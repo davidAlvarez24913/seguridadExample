@@ -16,17 +16,14 @@ app.post("/verifyUser/:name/:password", (req, res) => {
 
   db_con.connect(() => {
     const sql = `select u.rol from user as u where u.user_name = "${name}" and u.password = "${password}";`;
-    // console.log(sql);
 
     db_con.query(sql, (err, result) => {
       if (err) {
-        // console.log(err);
         res
           .status(500)
           .json({ error: "Error en la consulta de la base de datos" });
       } else if (result && result.length > 0) {
-        const { rol } = result[0]; // Extraer el valor de rol de la primera fila
-        // console.log(rol);
+        const { rol } = result[0];
         res.json({ rol: rol }).status(200);
       } else {
         res.status(404).json("Usuario no encontrado");

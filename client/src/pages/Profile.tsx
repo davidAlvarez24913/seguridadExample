@@ -1,4 +1,7 @@
+import { useParams } from "wouter";
+
 const ProfilePage = () => {
+  const { name } = useParams();
   return (
     <div className="w-11/12">
       <div className="flex justify-center pb-10">
@@ -10,7 +13,7 @@ const ProfilePage = () => {
         <div className="ml-10">
           <div className="flex items-center">
             <h2 className="block leading-relaxed font-light text-gray-700 text-3xl">
-              Darcy
+              {name}
             </h2>
             <a className="cursor-pointer h-7 px-3 ml-3 outline-none border-transparent text-center rounded border bg-blue-500 hover:bg-blue-600 text-white bg-transparent font-semibold">
               Enviar mensaje
