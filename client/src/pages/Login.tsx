@@ -64,7 +64,7 @@ const Login = () => {
           {errors.password && <span>{errors.password?.message}</span>}
         </div>
         <div className="flex items-center content-center justify-center mt-10">
-          <button className="bg-green-400 p-5 rounded-lg" type="submit">
+          <button className="bg-blue-400 p-5 rounded-lg" type="submit">
             Iniciar sesión
           </button>
         </div>

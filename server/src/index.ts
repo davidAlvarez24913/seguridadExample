@@ -40,7 +40,7 @@ app.post("/createUser/:data", (req, res) => {
     const sql = `INSERT INTO user (user_name, password, rol) VALUES ("${name}","${password}", "user");`;
     db_con.query(sql, (err) => console.log(err));
   });
-  res.status(200);
+  res.status(200).send("Usuario creado registrado exitosamente");
 });
 
 app.listen(PORT, () => {
