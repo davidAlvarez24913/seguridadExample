@@ -4,6 +4,7 @@ import { Link, Route, Router, useLocation } from "wouter";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import UsersPage from "./pages/Users";
+import ProfilePage from "./pages/Profile";
 
 function App() {
   const loc = useLocation();
@@ -38,6 +39,7 @@ function App() {
         <Route path="/login" component={Login} />
         <Route path="/" component={Login} />
         <Route path="/users" component={UsersPage} />
+        <Route path="/profile" component={ProfilePage} />
       </Router>
     </div>
   );

@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { useLocation, useRoute, useRouter } from "wouter";
+import { navigate } from "wouter/use-location";
 
 type LoginType = {
   name: string;
@@ -20,15 +22,22 @@ const Login = () => {
       method: "POST",
     })
       .then((response) => {
-        if (!response.ok) {
-          setError("usuario no existe");
-          throw error;
-        }
+        // if (!response.ok) {
+        //   setError("usuario no existe");
+        //   throw error;
+        // }
         return response.json();
       })
       .then((json) => {
         setRol(json.rol);
         setError("");
+        setTimeout(() => {
+          if (json.rol === "admin") {
+            navigate("/users", { replace: true });
+          } else {
+            navigate("/profile", { replace: true });
+          }
+        }, 3000);
       })
       .catch((e) => console.log(e));
   };
