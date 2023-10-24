@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import Captcha from "../components/Captcha";
 
 type LoginType = {
   name: string;
@@ -11,20 +12,24 @@ const Register = () => {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm<LoginType>();
   const [message, setmessage] = useState<string>();
+  const [captchaDone, setCaptchaDone] = useState(false);
 
   const onSubmit: SubmitHandler<LoginType> = (data) => {
     fetch(`http://localhost:3001/createUser/${JSON.stringify(data)}`, {
       method: "POST",
-      mode: "no-cors",
     })
       .then((result) => {
-        setmessage("Usuario creado registrado exitosamente");
+        setmessage(`Usuario ${data.name} registrado exitosamente`);
         console.log(result);
+        reset();
+        setCaptchaDone(false);
+        return result.json();
       })
+      .then((json) => console.log(json))
       .catch((e) => console.log(e));
-    console.log(data);
   };
 
   return (
@@ -41,6 +46,7 @@ const Register = () => {
           <input
             type="text"
             id="name"
+            required
             className="bg-slate-200 rounded-md px-3 w-full"
             {...register("name")}
           />
@@ -51,24 +57,26 @@ const Register = () => {
           <input
             type="password"
             id="password"
+            required
             className="bg-slate-200 rounded-md px-3 w-full"
             {...register("password")}
           />
 
           {errors.password && <span>{errors.password?.message}</span>}
         </div>
-        {message === undefined && (
-          <div className="flex items-center content-center justify-center mt-10">
-            <button className="bg-green-400 p-5 rounded-lg" type="submit">
-              Registrarse
-            </button>
-          </div>
-        )}
-        {message ? (
-          <div className="bg-green-400 p-2 items-center  mt-5 text-center justify-center rounded">
-            <span className="text-center   ">{message}</span>
-          </div>
-        ) : null}
+        <div className="flex flex-col justify-center items-center p-4 gap-3">
+          <Captcha onChange={() => setCaptchaDone(true)} />
+          <button
+            className="bg-blue-400 p-5 rounded-lg "
+            type="submit"
+            disabled={!captchaDone}
+          >
+            Registrarse
+          </button>
+          {message && (
+            <span className="text-center text-blue-600">{message}</span>
+          )}
+        </div>
       </form>
     </div>
   );
