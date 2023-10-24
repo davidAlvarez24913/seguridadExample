@@ -46,3 +46,21 @@ app.post("/createUser/:data", (req, res) => {
 app.listen(PORT, () => {
   console.log(" Server running on port 3001");
 });
+
+app.post("/allusers", (_req, res) => {
+  db_con.connect(() => {
+    const sql = `select user_name, rol from user;`;
+    db_con.query(sql, (err, result) => {
+      if (err) {
+        // console.log(err);
+        res
+          .status(500)
+          .json({ error: "Error en la consulta de la base de datos" });
+      } else if (result && result.length > 0) {
+        res.json({ users: result }).status(200);
+      } else {
+        res.status(404).json("");
+      }
+    });
+  });
+});

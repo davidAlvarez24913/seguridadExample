@@ -3,6 +3,7 @@ import "./App.css";
 import { Link, Route, Router, useLocation } from "wouter";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import UsersPage from "./pages/Users";
 
 function App() {
   const loc = useLocation();
@@ -36,6 +37,7 @@ function App() {
         <Route path="/register" component={Register} />
         <Route path="/login" component={Login} />
         <Route path="/" component={Login} />
+        <Route path="/users" component={UsersPage} />
       </Router>
     </div>
   );
